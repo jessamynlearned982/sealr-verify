@@ -1,0 +1,38 @@
+[package]
+name = "sealr-verify"
+description = "Offline verifier for Sealr (.seal) evidence bundles"
+license = "Apache-2.0"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "sealr-verify"
+path = "src/main.rs"
+
+[dependencies]
+sealr-evidence = { workspace = true }
+sealr-bundle = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+chrono = { workspace = true }
+thiserror = { workspace = true }
+clap = { workspace = true }
+# RFC 3161 / CMS token verification
+cms = "0.2"
+x509-cert = "0.2"
+x509-tsp = "0.1"
+der = "0.7"
+rsa = { version = "0.9", features = ["sha2"] }
+sha2 = { workspace = true }
+x509-parser = { workspace = true }
+
+[dev-dependencies]
+sealr-evidence = { workspace = true, features = ["test-support"] }
+tempfile = { workspace = true }
+ulid = { workspace = true }
+
+[lints]
+workspace = true

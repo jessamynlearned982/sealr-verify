@@ -1,0 +1,4 @@
+[toolchain]
+# MSRV policy: pinned minor, bumped deliberately with a changelog entry (NFR-7).
+channel = "1.93"
+components = ["rustfmt", "clippy"]

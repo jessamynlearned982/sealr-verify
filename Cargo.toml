@@ -1,0 +1,86 @@
+# Sealr — evidence format, reference implementation and offline verifier.
+# Generated from the Sealr monorepo by scripts/build-open-source.mjs.
+# Do not edit here: changes belong upstream and are republished on release.
+[workspace]
+resolver = "2"
+members = ["crates/evidence", "crates/bundle", "crates/verify"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.85"
+repository = "https://github.com/sealr-labs/sealr-verify"
+authors = ["Sealr"]
+
+[workspace.dependencies]
+# Crypto / evidence
+blake3 = "1"
+ed25519-dalek = { version = "2", features = ["rand_core", "pkcs8", "pem"] }
+rand = "0.8"
+zeroize = { version = "1", features = ["derive"] }
+rcgen = { version = "0.13", default-features = false, features = ["pem", "crypto", "ring", "x509-parser"] }
+x509-parser = { version = "0.16", features = ["verify"] }
+time = "0.3"
+sha2 = "0.10"
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+ulid = { version = "1", features = ["serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+
+# Containers
+zip = { version = "2", default-features = false, features = ["deflate"] }
+zstd = "0.13"
+
+# Runtime / networking
+
+# Guards
+
+# CLI / diagnostics
+clap = { version = "4", features = ["derive", "env"] }
+thiserror = "2"
+
+# Storage (ledger service only)
+
+# Test
+proptest = "1"
+tempfile = "3"
+
+# Internal crates
+sealr-evidence = { path = "crates/evidence" }
+sealr-bundle = { path = "crates/bundle" }
+
+[workspace.lints.rust]
+unsafe_code = "deny"
+missing_debug_implementations = "warn"
+
+[workspace.lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+# Pedantic allowlist (doc 02 §12 permits a documented allowlist). Rationale:
+module_name_repetitions = "allow"   # crate-qualified type names read clearly here
+missing_errors_doc = "allow"        # error taxonomy is via thiserror, self-documenting
+missing_panics_doc = "allow"        # panics are caught at surface boundaries (FR-4.5)
+must_use_candidate = "allow"        # noisy on pure getters
+struct_excessive_bools = "allow"    # config/verdict structs legitimately carry flags
+return_self_not_must_use = "allow"
+# Estimates and byte counts intentionally cast to f64 (entropy, radius, sizing);
+# precision loss is irrelevant to those heuristics.
+cast_precision_loss = "allow"
+cast_possible_truncation = "allow"  # bounded exit codes / u32 eval_ms, checked at call sites
+cast_sign_loss = "allow"
+# Guard statement-dispatch and the verifier engine are inherently long match
+# arms; splitting them would hurt readability, not help it.
+too_many_lines = "allow"
+# Doc-comment italics/ellipses and prose flagged as "missing backticks" are prose.
+doc_markdown = "allow"
+similar_names = "allow"
+items_after_statements = "allow"    # test helpers colocated after setup
+match_same_arms = "allow"           # explicit arms document intent even when bodies match
+unnecessary_wraps = "allow"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = "symbols"
+panic = "unwind" # recorder catches panics at surface boundaries (FR-4.5); abort would defeat that

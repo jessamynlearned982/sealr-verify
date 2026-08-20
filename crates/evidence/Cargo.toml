@@ -1,0 +1,34 @@
+[package]
+name = "sealr-evidence"
+description = "Sealr evidence format: records, hash chain, checkpoints, keys (reference implementation of the Seal format)"
+license = "Apache-2.0"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[dependencies]
+blake3 = { workspace = true }
+ed25519-dalek = { workspace = true }
+rand = { workspace = true }
+zeroize = { workspace = true }
+rcgen = { workspace = true }
+x509-parser = { workspace = true }
+time = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+ulid = { workspace = true }
+chrono = { workspace = true }
+thiserror = { workspace = true }
+sha2 = { workspace = true }
+
+[features]
+# Exposes deterministic sample-record constructors for downstream test suites.
+test-support = []
+
+[dev-dependencies]
+proptest = { workspace = true }
+
+[lints]
+workspace = true

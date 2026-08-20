@@ -1,0 +1,66 @@
+[
+  {
+    "file": "valid.seal",
+    "result": "pass",
+    "must_contain": []
+  },
+  {
+    "file": "bad-record-hash.seal",
+    "result": "fail",
+    "must_contain": [
+      "record_hash_mismatch"
+    ]
+  },
+  {
+    "file": "reordered.seal",
+    "result": "fail",
+    "must_contain": []
+  },
+  {
+    "file": "gap.seal",
+    "result": "fail",
+    "must_contain": []
+  },
+  {
+    "file": "forged-checkpoint.seal",
+    "result": "fail",
+    "must_contain": [
+      "checkpoint_signature_invalid"
+    ]
+  },
+  {
+    "file": "revoked-key.seal",
+    "result": "fail",
+    "must_contain": [
+      "checkpoint_after_revocation"
+    ]
+  },
+  {
+    "file": "bad-tsa-token.seal",
+    "result": "fail",
+    "must_contain": [
+      "anchor_invalid"
+    ]
+  },
+  {
+    "file": "fork.seal",
+    "result": "fail",
+    "must_contain": [
+      "chain_fork_detected"
+    ]
+  },
+  {
+    "file": "truncated-tail.seal",
+    "result": "fail",
+    "must_contain": [
+      "truncation_detected"
+    ]
+  },
+  {
+    "file": "checkpoint-removed.seal",
+    "result": "fail",
+    "must_contain": [
+      "checkpoint_chain_broken"
+    ]
+  }
+]
